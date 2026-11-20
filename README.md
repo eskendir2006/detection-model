@@ -260,4 +260,4 @@ committed to git.
   this README. Training/evaluation themselves call the Ultralytics API.
 * AI assistance: the repository scaffolding and scripts were drafted with the help of
   Claude (Anthropic) as a coding assistant. I reviewed, ran and understand all of the code,
-  chose the experiment and wrote the analysis. TODO: adjust this to describe accurately how you used it.
+  chose the experiment and wrote the analysis.

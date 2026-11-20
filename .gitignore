@@ -1,6 +1,6 @@
 # data and large artefacts (documented in README, not stored in git)
-datasets/
-runs/
+/datasets/
+/runs/
 *.pt
 *.zip
 pred_*.jpg

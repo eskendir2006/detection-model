@@ -1,0 +1,40 @@
+{
+  "run": "exp_imgsz416",
+  "config_file": "configs/exp_imgsz416.yaml",
+  "smoke_test_overrides": null,
+  "framework": "ultralytics 8.4.216",
+  "torch": "2.14.1+cu130",
+  "cuda": "13.0",
+  "python": "3.13.16",
+  "device": "Tesla T4",
+  "model": "yolo11n.pt",
+  "initial_weights": "yolo11n.pt (COCO-pretrained, downloaded by Ultralytics)",
+  "hyperparameters": {
+    "epochs": 50,
+    "imgsz": 416,
+    "batch": 16,
+    "optimizer": "SGD",
+    "lr0": 0.01,
+    "lrf": 0.01,
+    "momentum": 0.937,
+    "weight_decay": 0.0005,
+    "warmup_epochs": 3,
+    "seed": 0,
+    "deterministic": true,
+    "patience": 100,
+    "workers": 2,
+    "plots": true
+  },
+  "training_time_sec": 709.5,
+  "training_time_min": 11.83,
+  "best_checkpoint": "/content/detection-model/runs/exp_imgsz416/weights/best.pt",
+  "best_checkpoint_rule": "epoch with highest validation mAP50-95 (Ultralytics fitness)",
+  "best_epoch": {
+    "epoch": 49,
+    "val_precision": 0.9706,
+    "val_recall": 0.87769,
+    "val_mAP50": 0.94493,
+    "val_mAP50_95": 0.79812
+  },
+  "save_dir": "/content/detection-model/runs/exp_imgsz416"
+}

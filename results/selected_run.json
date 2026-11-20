@@ -1,0 +1,8 @@
+{
+  "selected_run": "baseline_640",
+  "rule": "highest validation mAP@0.50, ties broken by mAP@0.50:0.95",
+  "val_mAP50": 0.953,
+  "changed_settings_between_runs": [
+    "imgsz"
+  ]
+}

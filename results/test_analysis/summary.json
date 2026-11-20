@@ -1,0 +1,20 @@
+{
+  "run": "baseline_640",
+  "split": "test",
+  "conf": 0.25,
+  "match_iou": 0.5,
+  "images": 206,
+  "ground_truth_objects": 341,
+  "predictions": 351,
+  "true_positives": 324,
+  "precision_at_conf": 0.9231,
+  "recall_at_conf": 0.9501,
+  "error_counts": {
+    "missed": 17,
+    "wrong_class": 2,
+    "duplicate": 2,
+    "localization": 13,
+    "background": 10
+  },
+  "images_with_any_error": 29
+}

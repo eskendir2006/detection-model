@@ -1,9 +1,9 @@
 # African Wildlife Object Detection with YOLO11n
 
 **CSCI1409 Deep Learning, Bonus Project (Fall 2026)**
-Author: **TODO your full name**, student ID **TODO**
+Author: Yeskendir Ussibaliyev, student ID 23B031163
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YOUR_GITHUB_USERNAME/csci1409-object-detection/blob/main/notebooks/object_detection_colab.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/eskendir2006/csci1409-object-detection/blob/main/notebooks/object_detection_colab.ipynb)
 
 ## 1. Task
 
@@ -42,7 +42,7 @@ results/                                 committed evidence: stats, logs, curves
 
 **Locally** (CPU works for the smoke test only):
 ```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/csci1409-object-detection.git
+git clone https://github.com/eskendir2006/csci1409-object-detection.git
 cd csci1409-object-detection
 pip install torch torchvision          # pick the build for your machine from pytorch.org
 pip install -r requirements.txt
@@ -214,7 +214,7 @@ image size / with a bigger model (YOLO11s) if small animals are the main failure
 
 ## 9. Final checkpoint
 
-Download: **TODO** `https://github.com/YOUR_GITHUB_USERNAME/csci1409-object-detection/releases/download/v1.0/best.pt`
+Download: **TODO** `https://github.com/eskendir2006/csci1409-object-detection/releases/download/v1.0/best.pt`
 (run: TODO, image size TODO, ~5.5 MB). It is attached to the GitHub Release `v1.0` and not
 committed to git.
 

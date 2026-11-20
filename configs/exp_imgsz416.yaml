@@ -1,0 +1,19 @@
+# Run 2 - CONTROLLED EXPERIMENT
+# Identical to configs/baseline.yaml except for ONE setting: imgsz 640 -> 416.
+# Same data split, same pretrained weights (yolo11n.pt), same seed, same epochs/LR/batch.
+name: exp_imgsz416
+model: yolo11n.pt
+epochs: 50
+imgsz: 416               # <-- the only change (baseline: 640)
+batch: 16
+optimizer: SGD
+lr0: 0.01
+lrf: 0.01
+momentum: 0.937
+weight_decay: 0.0005
+warmup_epochs: 3
+seed: 0
+deterministic: true
+patience: 100
+workers: 2
+plots: true

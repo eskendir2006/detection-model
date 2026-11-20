@@ -1,0 +1,6 @@
+# Pinned versions used for the reported results (installed by the Colab notebook).
+# torch / torchvision are intentionally NOT pinned: Colab ships a matching CUDA build and
+# re-installing it would take minutes. The exact torch/CUDA/GPU used for every run is
+# recorded in results/runs/<run>/run_info.json.
+ultralytics==8.4.216
+imagehash==4.3.2

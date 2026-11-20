@@ -1,0 +1,19 @@
+# Run 1 - BASELINE
+# Every key except `name` and `model` is passed straight to ultralytics `model.train()`.
+# Docs for each argument: https://docs.ultralytics.com/modes/train/#train-settings
+name: baseline_640
+model: yolo11n.pt        # COCO-pretrained YOLO11 nano (~2.6M parameters), downloaded automatically
+epochs: 50
+imgsz: 640               # training/validation image size (long side, letterboxed)
+batch: 16
+optimizer: SGD           # set explicitly: optimizer=auto can silently replace lr0
+lr0: 0.01                # initial learning rate
+lrf: 0.01                # final LR = lr0 * lrf (linear decay)
+momentum: 0.937
+weight_decay: 0.0005
+warmup_epochs: 3
+seed: 0
+deterministic: true
+patience: 100            # > epochs, i.e. no early stopping: both runs train the same number of epochs
+workers: 2               # Colab has 2 CPU cores
+plots: true

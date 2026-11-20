@@ -1,0 +1,47 @@
+{
+  "dataset_source": "https://github.com/ultralytics/assets/releases/download/v0.0.0/african-wildlife.zip",
+  "classes": {
+    "0": "buffalo",
+    "1": "elephant",
+    "2": "rhino",
+    "3": "zebra"
+  },
+  "annotation_format": "YOLO txt: one line per object, 'class xc yc w h', normalised to [0,1]",
+  "splits": {
+    "train": {
+      "images": 1080,
+      "objects": 1978,
+      "objects_per_class": {
+        "buffalo": 416,
+        "elephant": 565,
+        "rhino": 410,
+        "zebra": 587
+      }
+    },
+    "val": {
+      "images": 218,
+      "objects": 366,
+      "objects_per_class": {
+        "buffalo": 86,
+        "elephant": 87,
+        "rhino": 82,
+        "zebra": 111
+      }
+    },
+    "test": {
+      "images": 206,
+      "objects": 341,
+      "objects_per_class": {
+        "buffalo": 52,
+        "elephant": 96,
+        "rhino": 67,
+        "zebra": 126
+      }
+    }
+  },
+  "label_issue_counts": {},
+  "duplicate_groups": 62,
+  "cross_split_duplicate_groups_now": 0,
+  "images_moved_to_resolve_duplicates": 29,
+  "hash_dist_threshold": 5
+}

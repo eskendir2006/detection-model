@@ -1,0 +1,12 @@
+# data and large artefacts (documented in README, not stored in git)
+datasets/
+runs/
+*.pt
+*.zip
+pred_*.jpg
+# python / jupyter
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+# smoke-test outputs
+results/**/*_smoke*

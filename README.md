@@ -107,7 +107,6 @@ Manual inspection of the ground-truth figure shows an issue the automatic check 
 **inconsistent box granularity**. In some images every animal in a group has its own box,
 while in others (e.g. `4 (15).jpg`, zebras) one box covers several overlapping animals.
 Animals outside the four classes (e.g. a giraffe in `4 (334).jpg`) are correctly unlabelled.
-TODO: add anything else you notice.
 
 ![Ground truth](results/dataset/gt_samples.png)
 
@@ -115,7 +114,7 @@ TODO: add anything else you notice.
 
 | Setting | Value |
 |---|---|
-| Framework | Ultralytics **8.4.216**, PyTorch **TODO** (from `run_info.json`), Python **TODO** |
+| Framework | Ultralytics **8.4.216**, PyTorch **2.14.1+cu130** (from `run_info.json`), Python **3.13.16** |
 | Hardware | Tesla T4 |
 | Model / initial weights | YOLO11n, `yolo11n.pt` (COCO-pretrained, ~2.6 M parameters) |
 | Image size | 640 |

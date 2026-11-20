@@ -37,7 +37,7 @@ results/                                 committed evidence: stats, logs, curves
 **Google Colab (recommended, free T4 GPU):**
 1. Click *Open in Colab* above.
 2. `Runtime -> Change runtime type -> T4 GPU`.
-3. `Runtime -> Run all`. A full run (both trainings) takes about **TODO** minutes.
+3. `Runtime -> Run all`. A full run (both trainings) takes about 54 minutes.
    Set `QUICK_RUN = True` in the first cell for a 1-epoch smoke test.
 
 **Locally** (CPU works for the smoke test only):
@@ -116,7 +116,7 @@ TODO: add anything else you notice.
 | Setting | Value |
 |---|---|
 | Framework | Ultralytics **8.4.216**, PyTorch **TODO** (from `run_info.json`), Python **TODO** |
-| Hardware | **TODO** (e.g. Tesla T4, Colab free tier) |
+| Hardware | Tesla T4 |
 | Model / initial weights | YOLO11n, `yolo11n.pt` (COCO-pretrained, ~2.6 M parameters) |
 | Image size | 640 |
 | Batch size | 16 |
@@ -124,8 +124,8 @@ TODO: add anything else you notice.
 | Optimizer / learning rate | SGD, lr0 = 0.01 -> 0.0001 (linear), momentum 0.937, weight decay 5e-4, 3 warm-up epochs |
 | Augmentation | Ultralytics defaults (mosaic, HSV jitter, horizontal flip, scale/translate) |
 | Random seed | 0 (`deterministic=True`) |
-| Training time | **TODO** min |
-| Checkpoint selection | `best.pt` = epoch with the highest **validation** mAP@0.50:0.95 (Ultralytics 8.4 fitness); best epoch **TODO** |
+| Training time | 11.83 min |
+| Checkpoint selection | `best.pt` = epoch with the highest **validation** mAP@0.50:0.95 (Ultralytics 8.4 fitness); best epoch 49/50 |
 
 Config: [`configs/baseline.yaml`](configs/baseline.yaml) |
 log: [`train_log.txt`](results/runs/baseline_640/train_log.txt) |
@@ -146,15 +146,17 @@ pixels after downscaling.
 
 Validation results (`results/comparison.md`; P/R at the max-F1 confidence, NMS IoU 0.7):
 
-TODO: paste the table from `results/comparison.md`
+| Run | Changed setting | Val precision | Val recall | Val mAP@0.50 | Val mAP@0.50:0.95 | Best epoch | Training time (min) |
+|---|---|---:|---:|---:|---:|---:|---:|
+| baseline_640 | imgsz=640 | 0.945 | 0.907 | 0.953 | 0.803 | 50 | 16.3 |
+| exp_imgsz416 | imgsz=416 | 0.939 | 0.906 | 0.946 | 0.796 | 49 | 11.8 |
 
 ![Both runs](results/learning_curves.png)
 
-**Explanation:** TODO. Was the hypothesis confirmed? Which classes changed most (per-class values
-are in `results/eval/*_val.json`)? Was the speed gain worth the accuracy change? Note that one
+**Explanation:** I believe that the hypothesis was basically confirmed. The most change in all of the classes is observed in the buffalo class, though the change is slight (0.03 at most). I consider the resolution change worth it as it cut the training time by 27%. Note that one
 seed per setting cannot show whether a small difference (e.g. < 0.01 mAP) is real or noise.
 
-**Selected run:** TODO (rule: higher validation mAP@0.50, see `results/selected_run.json`).
+**Selected run:** baseline_640 with mAP%0.50 of 0.953 (rule: higher validation mAP@0.50, see `results/selected_run.json`).
 
 ## 7. Final test results
 
@@ -163,7 +165,7 @@ had been chosen using validation data only.
 
 | Run | Test precision | Test recall | Test mAP@0.50 | Test mAP@0.50:0.95 |
 |---|---:|---:|---:|---:|
-| TODO | TODO | TODO | TODO | TODO |
+| baseline_640 | 0.970 | 0.939 | 0.972 | 0.829 |
 
 Evaluation settings: image size = training size, **confidence threshold 0.001**, **NMS IoU 0.7**,
 a prediction matches a ground-truth box when **IoU >= 0.50** and the class is the same.
@@ -181,7 +183,7 @@ Per-class values: `results/eval/<run>_test.json`.
   **mAP@0.50** is the mean of AP over the 4 classes. **mAP@0.50:0.95** averages mAP over IoU
   thresholds 0.50, 0.55, ..., 0.95, so it also rewards tight boxes.
 * Ultralytics reports P and R at the confidence that maximises F1. At the fixed deployment
-  threshold conf = 0.25 the analysis script gives precision **TODO** and recall **TODO**
+  threshold conf = 0.25 the analysis script gives precision **0.923** and recall **0.950**
   (`results/test_analysis/summary.json`).
 
 ## 8. Predictions and failure analysis
@@ -192,30 +194,49 @@ Test predictions (conf >= 0.25; blue = correct, red = error with its type):
 
 `analyze_test.py` matches predictions to ground truth (IoU >= 0.5, same class) and labels every
 error as *missed*, *wrong class*, *duplicate*, *poor localisation* or *background* false positive.
-Error totals on test: **TODO** (from `summary.json`). Starting notes for each case are
-in [`failures.md`](results/test_analysis/failures.md).
+# Failure cases: baseline_640 on test (conf >= 0.25, match IoU >= 0.5)
 
-**Failure 1: TODO type** ![](results/test_analysis/failure_1_missed.png)
-What happened: TODO. Likely cause: TODO (e.g. small, occluded or overlapping animals; the
-inconsistent group-box labelling from 4.2; low resolution).
+Error totals: {'missed': 17, 'wrong_class': 2, 'duplicate': 2, 'localization': 13, 'background': 10}
 
-**Failure 2: TODO type** ![](results/test_analysis/failure_2_wrong_class.png)
-What happened: TODO. Likely cause: TODO (e.g. buffalo vs rhino look similar: grey/dark, bulky,
-horned; side or back views hide the distinguishing horns).
+## Failure 1: missed
 
-**Failure 3: TODO type** ![](results/test_analysis/failure_3_false_positive.png)
-What happened: TODO. Likely cause: TODO.
+![failure_1_missed.png](failure_1_missed.png)
 
-**Practical next step:** TODO, pick one and justify it, e.g. relabel group boxes consistently
-(one box per animal), add more buffalo/rhino images from side/back views, or train at a larger
-image size / with a bigger model (YOLO11s) if small animals are the main failure.
+**2 (130).jpg**: 10 ground-truth object(s) (elephant, elephant, elephant, elephant, elephant, elephant, elephant, elephant, elephant, elephant), 8 prediction(s), 7 correct.
+- missed 3 x **elephant**
+- localization false positive: **elephant** (0.49), best IoU with a same-class object 0.43
+
+Likely cause: The target is at the edge, slightly out of sight. The missed elephant is also overlapped with other creatures.
+
+## Failure 2: wrong_class
+
+![failure_2_wrong_class.png](failure_2_wrong_class.png)
+
+**4 (257).jpg**: 2 ground-truth object(s) (zebra, zebra), 1 prediction(s), 0 correct.
+- missed 2 x **zebra**
+- predicted **buffalo** (0.69) on a **zebra** (wrong class)
+
+Likely cause: The model misrepresented a pair of zebras due to their close proximity.
+
+## Failure 3: false_positive
+
+![failure_3_false_positive.png](failure_3_false_positive.png)
+
+**4 (105).jpg**: 2 ground-truth object(s) (zebra, zebra), 5 prediction(s), 2 correct.
+- background false positive: **elephant** (0.75), best IoU with a same-class object 0.0
+- background false positive: **elephant** (0.45), best IoU with a same-class object 0.0
+- background false positive: **elephant** (0.25), best IoU with a same-class object 0.0
+
+Likely cause: The dataset does not contain such animals, so the springboks on the photo were randomly labeled.
+
+**Practical next step:** To attempt training with a higher resolution images. I believe that this would eliminate most cases of missed animals.
 
 (File names of the failure figures depend on which error types occur; check `results/test_analysis/`.)
 
 ## 9. Final checkpoint
 
-Download: **TODO** `https://github.com/eskendir2006/detection-model/releases/download/v1.0/best.pt`
-(run: TODO, image size TODO, ~5.5 MB). It is attached to the GitHub Release `v1.0` and not
+Download: `https://github.com/eskendir2006/detection-model/releases/download/v1.0/best.pt`
+(run: baseline_640 , image size ~5 MB). It is attached to the GitHub Release `v1.0` and not
 committed to git.
 
 ## 10. Limitations
